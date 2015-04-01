@@ -41,7 +41,7 @@ Application::Application(int tutorialNumber)
 
 	// The Ground Surface------------------------------------------------------
 	m_ground = new GroundSurface(m_surfaceProgram, myCamera);
-	m_ground->GenerateGrid(200, 200);
+	m_ground->GenerateGrid(500, 500);
 	//-------------------------------------------------------------------------
 
 	// The Ground Surface------------------------------------------------------
