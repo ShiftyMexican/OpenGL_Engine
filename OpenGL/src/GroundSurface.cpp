@@ -191,6 +191,7 @@ void GroundSurface::GeneratePerlin(unsigned int rows, unsigned int cols)
 	float *perlin_data = new float[rows * cols];
 	float scale = (1.0f / dims) * 3;
 	int octaves = 6;
+	float perlin_seed = 0.9f;
 
 	for (int x = 0; x < rows; ++x)
 	{
@@ -204,8 +205,9 @@ void GroundSurface::GeneratePerlin(unsigned int rows, unsigned int cols)
 			for (int o = 0; o < octaves; ++o)
 			{
 				float freq = powf(2, (float)o);
-				float perlin_sample = glm::perlin(vec2((float)x, (float)y) * scale * freq) * 0.5f + 0.5f;
-				perlin_data[y * dims + x] += perlin_sample * amplitude;
+				//float perlin_sample = glm::perlin(vec2((float)x, (float)y) * scale * freq) * 0.5f + 0.5f;
+				float perlin_s = glm::perlin(vec3((float)x, (float)y, perlin_seed) *scale * freq) *0.5f + 0.5f;
+				perlin_data[y * dims + x] += perlin_s * amplitude;
 				amplitude *= persistence;
 			}
 		}
