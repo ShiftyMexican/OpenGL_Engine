@@ -44,7 +44,7 @@ Object::~Object()
 
 void Object::Update(float deltaTime)
 {
-	m_lightYPos = glm::vec3(0, 100,50);
+	m_lightYPos = glm::vec3(10, 10, 10);
 }
 
 void Object::Draw()
@@ -63,12 +63,12 @@ void Object::Draw()
 	unsigned int uiCameraLocation = glGetUniformLocation(m_programID, "CameraPos");
 	glUniform3fv(uiCameraLocation, 0, glm::value_ptr(m_camera->GetPosition())); // 0.0f, 1.0f, 0.0f); // glm::value_ptr(m_lightYPos));
 
-	vec3 lightDir = vec3(0, 100, 0);
+	vec3 lightDir = vec3(10);
 	unsigned int uiLightDir = glGetUniformLocation(m_programID, "LightDir");
-	glUniform3fv(uiLightDir, 1, glm::value_ptr(lightDir));
+	glUniform3fv(uiLightDir, 1, glm::value_ptr( lightDir));
 
 	unsigned int uiSpecPow = glGetUniformLocation(m_programID, "SpecPow");
-	glUniform1f(uiSpecPow, 5.0f);
+	glUniform1f(uiSpecPow, 25.0f);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_texture);
@@ -95,11 +95,9 @@ void Object::load_obj(std::vector<Vertex> &vertices, std::vector<glm::vec3> &nor
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
-	glEnableVertexAttribArray(3);
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(vec4)));
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)((sizeof(vec4)) + sizeof(glm::vec3)));
-	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)((sizeof(vec4)) + (sizeof(glm::vec3) * 2)));
+	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)((sizeof(vec4)) + sizeof(glm::vec3)));
 
 	std::ifstream in(m_filename, std::ios::in);
 	if(!in) { std::cerr << "cannot open" << m_filename << std::endl; exit(1); }

@@ -37,7 +37,6 @@ struct Vertex {
 	glm::vec4 position;
 	glm::vec2 texCoord;
 	glm::vec3 normal;
-	glm::vec4 tanget;
 };
 
 class Object;
