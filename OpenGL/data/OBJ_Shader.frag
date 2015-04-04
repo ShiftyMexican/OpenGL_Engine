@@ -19,13 +19,13 @@ uniform float SpecPow;
 
 void main() 
 {
-	//mat3 TBN = mat3( normalize(vTangent), normalize(vBiTangent), normalize(vNormal));
+	mat3 TBN = mat3( normalize(vTangent), normalize(vBiTangent), normalize(vNormal));
 
-	//vec3 N = texture(normal, vTexCoord).xyz * 2 - 1;
+	vec3 N = texture(normal, vTexCoord).xyz * 2 - 1;
 	
-	//vec3 lightDir = normalize(vPosition.xyz - LightPos);
+	vec3 lightDir = normalize(LightDir);
 	
-	//float d = max(0.0, dot(normalize(TBN * N), lightDir ) );	
+	float d = max(0.0, dot(normalize(TBN * N), lightDir ) );	
 	
 	//vec3 E = normalize( CameraPos - vPosition.xyz );
 	
@@ -35,17 +35,17 @@ void main()
 	
 	//s = pow( s, SpecPow );	
 
-	//FragColor = texture(diffuse, vTexCoord) * vec4( LightColour * d + LightColour * s, 1);//vec4(0.2,0.2,0.2,1); 
-
-	float d = max(0, dot(normalize(vNormal.xyz), LightDir));
+	//float d = max(0, dot(normalize(TBN * N), normalize(lightDir)));
 
 	vec3 E = normalize( CameraPos - vPosition.xyz );
 	
-	vec3 R = reflect( -LightDir, vNormal.xyz );
+	vec3 R = reflect( -lightDir, vNormal.xyz );
 
 	float s = max( 0, dot( E, R ) );
 	
 	s = pow( s, SpecPow );
 
-	FragColor = vec4( LightColour * d + LightColour * s, 1);
+	FragColor = texture(diffuse, vTexCoord) * vec4( LightColour * d + LightColour * s, 1);//vec4(0.2,0.2,0.2,1); 
+
+	//FragColor.rgb = FragColor.rgb * d;// = vec4( vNormal, 1);// LightColour * d + LightColour * s, 1);
 };

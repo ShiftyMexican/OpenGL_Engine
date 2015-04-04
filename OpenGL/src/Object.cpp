@@ -44,7 +44,7 @@ Object::~Object()
 
 void Object::Update(float deltaTime)
 {
-	m_lightYPos = glm::vec3(10, 100, 100);
+	m_lightYPos = glm::vec3((sin(glfwGetTime()), 1, cos(glfwGetTime())));
 }
 
 void Object::Draw()
@@ -55,7 +55,7 @@ void Object::Draw()
 	glUniformMatrix4fv(uiProjViewLocation, 1, false, glm::value_ptr(m_camera->GetProjectionView()));
 	
 	unsigned int uiLightPositionLocation = glGetUniformLocation(m_programID, "LightPos");
-	glUniform3fv(uiLightPositionLocation, 1, glm::value_ptr(m_lightYPos));
+	glUniform3f(uiLightPositionLocation, m_lightYPos.x, m_lightYPos.y, m_lightYPos.z);
 
 	unsigned int uiLightColourLocation = glGetUniformLocation(m_programID, "LightColour");
 	glUniform3f(uiLightColourLocation, 1.0f, 1.0f, 1.0f);
@@ -63,12 +63,20 @@ void Object::Draw()
 	unsigned int uiCameraLocation = glGetUniformLocation(m_programID, "CameraPos");
 	glUniform3fv(uiCameraLocation, 0, glm::value_ptr(m_camera->GetPosition())); // 0.0f, 1.0f, 0.0f); // glm::value_ptr(m_lightYPos));
 
-	vec3 lightDir = vec3(0, 100, 0);
+	vec3 lightDir(0, 100, 0);
 	unsigned int uiLightDir = glGetUniformLocation(m_programID, "LightDir");
-	glUniform3fv(uiLightDir, 1, glm::value_ptr(lightDir));
+	glUniform3f(uiLightDir, lightDir.x, lightDir.y, lightDir.z);
 
 	unsigned int uiSpecPow = glGetUniformLocation(m_programID, "SpecPow");
-	glUniform1f(uiSpecPow, 5.0f);
+	glUniform1f(uiSpecPow, 25.0f);
+
+	unsigned int loc = glGetUniformLocation(m_programID, "diffuse");
+	glUniform1f(loc, 0);
+
+	loc = glGetUniformLocation(m_programID, "normal");
+	glUniform1f(loc, 1);
+
+
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_texture);
