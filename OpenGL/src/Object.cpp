@@ -20,8 +20,6 @@ Object::Object(GLFWwindow* window, FreeCamera* _camera, unsigned int programID, 
 	m_vertexCount = 0;
 	m_indexCount = 0;
 
-	m_lightYPos = vec3(0, 100, 200);
-
 	int imageWidth = 0, imageHeight = 0, imageFormat = 0;
 
 	load_obj(m_vertices, m_normals, m_elements, m_texCoord);
@@ -44,31 +42,32 @@ Object::~Object()
 
 void Object::Update(float deltaTime)
 {
-	m_lightYPos = glm::vec3((sin(glfwGetTime()), 1, cos(glfwGetTime())));
+	
 }
 
-void Object::Draw()
+void Object::Draw(glm::vec3 _lightDir, glm::vec3 _lightColour)
 {
 	glUseProgram(m_programID);
 
 	unsigned int uiProjViewLocation = glGetUniformLocation(m_programID, "ProjectionView");
 	glUniformMatrix4fv(uiProjViewLocation, 1, false, glm::value_ptr(m_camera->GetProjectionView()));
 	
-	unsigned int uiLightPositionLocation = glGetUniformLocation(m_programID, "LightPos");
-	glUniform3f(uiLightPositionLocation, m_lightYPos.x, m_lightYPos.y, m_lightYPos.z);
+	//unsigned int uiLightPositionLocation = glGetUniformLocation(m_programID, "LightPos");
+	//glUniform3f(uiLightPositionLocation, lightPos.x, lightPos.y, lightPos.z);
 
 	unsigned int uiLightColourLocation = glGetUniformLocation(m_programID, "LightColour");
-	glUniform3f(uiLightColourLocation, 1.0f, 1.0f, 1.0f);
+	glUniform3f(uiLightColourLocation, _lightColour.x, _lightColour.y, _lightColour.z);
 
 	unsigned int uiCameraLocation = glGetUniformLocation(m_programID, "CameraPos");
 	glUniform3fv(uiCameraLocation, 0, glm::value_ptr(m_camera->GetPosition())); // 0.0f, 1.0f, 0.0f); // glm::value_ptr(m_lightYPos));
 
-	vec3 lightDir(0, 100, 0);
+	vec3 lightDir = glm::normalize(_lightDir);
+
 	unsigned int uiLightDir = glGetUniformLocation(m_programID, "LightDir");
 	glUniform3f(uiLightDir, lightDir.x, lightDir.y, lightDir.z);
 
 	unsigned int uiSpecPow = glGetUniformLocation(m_programID, "SpecPow");
-	glUniform1f(uiSpecPow, 25.0f);
+	glUniform1f(uiSpecPow, 125.0f);
 
 	unsigned int loc = glGetUniformLocation(m_programID, "diffuse");
 	glUniform1f(loc, 0);

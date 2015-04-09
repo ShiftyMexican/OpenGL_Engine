@@ -26,7 +26,7 @@ public:
 
 	void GenerateGrid(unsigned int rows, unsigned int cols);
 
-	void Draw();
+	void Draw(glm::vec3 _lightDir, glm::vec3 _lightColour);
 
 	void GeneratePerlin(unsigned int rows, unsigned int cols, float seed);
 

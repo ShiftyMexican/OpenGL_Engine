@@ -7,6 +7,8 @@ layout(location=2) in vec3 normal;
 uniform mat4 ProjectionView;
 
 out vec2 frag_texcoord;
+out vec3 vNormal;
+out vec4 vPosition;
 
 uniform sampler2D perlin_texture;
 
@@ -22,5 +24,7 @@ void main()
 
 	pos.y += height * 30;
 	frag_texcoord = texcoord;
+	vNormal = normal.xyz;
+	vPosition = position;
 	gl_Position = ProjectionView * pos;
 }

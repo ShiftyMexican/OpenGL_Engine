@@ -63,6 +63,12 @@ public:
 	float GetPerlinSeed();
 
 	void SetPerlinNoise(float value);
+	float GetLightDirX();
+	float GetLightDirZ();
+	void SetLightDirX(float value);
+	void SetLightDirZ(float value);
+
+	glm::vec3 GetLightColour();
 
 	
 
@@ -74,6 +80,9 @@ protected:
 	glm::vec3 m_lightColour;
 
 	float m_perlinNoiseSeed;
+
+	float m_lightDir_x;
+	float m_lightDir_z;
 	
 
 private:

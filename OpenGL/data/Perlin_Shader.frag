@@ -1,15 +1,40 @@
 #version 410
 
 in vec2 frag_texcoord;
+in vec3 vNormal;
+in vec4 vPosition;
 
 out vec4 out_color;
+
 uniform sampler2D perlin_texture;
 uniform sampler2D grass_texture;
 uniform sampler2D sand_texture;
 uniform sampler2D water_texture;
 
+uniform sampler2D diffuse;
+uniform sampler2D normal;	
+
+uniform vec3 LightDir;
+uniform vec3 LightPos;
+uniform vec3 LightColour;
+uniform vec3 CameraPos;
+uniform float SpecPow;
+
 void main()
 {
+
+	// Lighting
+	vec3 N = texture(normal, frag_texcoord).xyz * 2 - 1;
+
+	float d = max(0.0, dot(normalize(vNormal), normalize(LightDir) ) );	
+
+	vec3 E = normalize( CameraPos - vPosition.xyz );
+	
+	vec3 R = reflect( -LightDir, vNormal.xyz );
+
+	float s = max( 0, dot( E, R ) );
+	
+	s = pow( s, SpecPow );
 
 	float height = texture(perlin_texture, frag_texcoord).r; 
 	float blendAmount = 0.6;
@@ -43,5 +68,7 @@ void main()
 		out_color = water;
 	}
 
+	// Final Colour
 	out_color.a = 1;
+	out_color = out_color * vec4( LightColour * d + LightColour * s, 1) * vec4(height, height, height, 1);
 }

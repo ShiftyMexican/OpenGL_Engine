@@ -112,52 +112,42 @@ void GroundSurface::GenerateGrid(unsigned int rows, unsigned int cols)
 
 }
 
-void GroundSurface::Draw()
+void GroundSurface::Draw(glm::vec3 _lightDir, glm::vec3 _lightColour)
 {
 	glUseProgram(m_programID);
 
 	unsigned int uiProjViewLocation = glGetUniformLocation(m_programID, "ProjectionView");
 	glUniformMatrix4fv(uiProjViewLocation, 1, false, glm::value_ptr(m_camera->GetProjectionView()));
 
+	// Lighting ----------------------------------------------------------------------------------
 	//unsigned int uiLightPositionLocation = glGetUniformLocation(m_programID, "LightPos");
-	//glUniform3f(uiLightPositionLocation, 1.0f, 1.0f, 1.0f);
-	//
-	//unsigned int uiLightColourLocation = glGetUniformLocation(m_programID, "LightColour");
-	//glUniform3f(uiLightColourLocation, 1.0f, 1.0f, 1.0f);
-	//
-	//unsigned int uiCameraLocation = glGetUniformLocation(m_programID, "CameraPos");
-	//glUniform3fv(uiCameraLocation, 0, glm::value_ptr(m_camera->GetPosition())); // 0.0f, 1.0f, 0.0f); // glm::value_ptr(m_lightYPos));
-	//
-	//unsigned int uiSpecPow = glGetUniformLocation(m_programID, "SpecPow");
-	//glUniform1f(uiSpecPow, 25.0f);
+	//glUniform3f(uiLightPositionLocation, lightPos.x, lightPos.y, lightPos.z);
+
+	unsigned int uiLightColourLocation = glGetUniformLocation(m_programID, "LightColour");
+	glUniform3f(uiLightColourLocation, _lightColour.x, _lightColour.y, _lightColour.z);
+
+	unsigned int uiCameraLocation = glGetUniformLocation(m_programID, "CameraPos");
+	glUniform3fv(uiCameraLocation, 0, glm::value_ptr(m_camera->GetPosition())); // 0.0f, 1.0f, 0.0f); // glm::value_ptr(m_lightYPos));
+
+	vec3 lightDir = glm::normalize(_lightDir);
+	unsigned int uiLightDir = glGetUniformLocation(m_programID, "LightDir");
+	glUniform3f(uiLightDir, lightDir.x, lightDir.y, lightDir.z);
+
+	unsigned int uiSpecPow = glGetUniformLocation(m_programID, "SpecPow");
+	glUniform1f(uiSpecPow, 10.0f);
+
+	unsigned int loc = glGetUniformLocation(m_programID, "diffuse");
+	glUniform1f(loc, 0);
+
+	loc = glGetUniformLocation(m_programID, "normal");
+	glUniform1f(loc, 1);
 	
-	/*
-	int loc = glGetUniformLocation(m_programID, "ProjectionView");
-	glUniformMatrix4fv(loc, 1, GL_FALSE, &(m_camera->GetProjectionView()[0][0]));
 
-	glm:mat4 textureSpaceOffset(
-		0.5f, 0.0f, 0.0f, 0.0f,
-		0.0f, 0.5f, 0.0f, 0.0f,
-		0.0f, 0.0f, 0.5f, 0.0f,
-		0.5f, 0.5f, 0.5f, 1.0f
-	);
-
-	glm::mat4 lightMatrix = textureSpaceOffset * m_lightMatrix;
-
-	loc = glGetUniformLocation(m_programID, "LightMatrix");
-	glUniformMatrix4fv(loc, 1, GL_FALSE, &lightMatrix[0][0]);
-
-	loc = glGetUniformLocation(m_programID, "lightDir");
-	glUniform3fv(loc, 1, &m_lightDirection[0]);
-
-	loc = glGetUniformLocation(m_programID, "shadowMap");
-	glUniform1i(loc, 0);
-
-	*/	
+	// Texture ----------------------------------------------------------------------------------
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_perlin_texture);
-	unsigned int loc = glGetUniformLocation(m_programID, "perlin_texture");
-	glUniform1i(loc, 0);
+	unsigned int loc1 = glGetUniformLocation(m_programID, "perlin_texture");
+	glUniform1i(loc1, 0);
 
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, m_grassTexture);
@@ -193,9 +183,9 @@ void GroundSurface::GeneratePerlin(unsigned int rows, unsigned int cols, float s
 	int octaves = 6;
 	m_perlinSeed = seed;
 
-	for (int x = 0; x < rows; ++x)
+	for (unsigned int x = 0; x < rows; ++x)
 	{
-		for (int y = 0; y < cols; ++y)
+		for (unsigned int y = 0; y < cols; ++y)
 		{
 			float amplitude = 1.0f;
 			float persistence = 0.3f;

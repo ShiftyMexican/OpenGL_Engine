@@ -17,8 +17,9 @@ MyAntTeakBar::MyAntTeakBar(GLFWwindow* window)
 	glfwSetWindowSizeCallback(window, OnWindowResize);
 
 	//TwAddVarRW(m_bar, "clear colour", TW_TYPE_COLOR4F, &m_clearColour[0], "");
-	TwAddVarRW(m_bar, "Light direction", TW_TYPE_DIR3F, &m_light[0], "group=Light");
-	TwAddVarRW(m_bar, "Light colour", TW_TYPE_DIR3F, &m_lightColour[0], "group=Light");
+	TwAddVarRW(m_bar, "X Light Direction", TW_TYPE_FLOAT, &m_lightDir_x, "group=Light");
+	TwAddVarRW(m_bar, "Z Light Direction", TW_TYPE_FLOAT, &m_lightDir_z, "group=Light");
+	TwAddVarRW(m_bar, "Light Colour", TW_TYPE_COLOR3F, &m_lightColour[0], "group=Light");
 	TwAddVarRW(m_bar, "Perlin Noise Seed", TW_TYPE_FLOAT, &m_perlinNoiseSeed, "group=Ground");
 }
 
@@ -53,4 +54,30 @@ void MyAntTeakBar::SetPerlinNoise(float value)
 {
 	m_perlinNoiseSeed = value;
 }
+
+float MyAntTeakBar::GetLightDirX()
+{
+	return m_lightDir_x;
+}
+
+void MyAntTeakBar::SetLightDirX(float value)
+{
+	m_lightDir_x = value;
+}
+
+float MyAntTeakBar::GetLightDirZ()
+{
+	return m_lightDir_z;
+}
+
+void MyAntTeakBar::SetLightDirZ(float value)
+{
+	m_lightDir_z = value;
+}
+
+glm::vec3 MyAntTeakBar::GetLightColour()
+{
+	return m_lightColour;
+}
+
 

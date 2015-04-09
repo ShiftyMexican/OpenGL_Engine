@@ -107,6 +107,9 @@ protected:
 	glm::mat4 view;
 	glm::mat4 projection;
 
+	glm::vec3 m_lightDir;
+	glm::vec3 m_lightColour;
+
 	float m_planetRot;
 	float m_planetRot2;
 

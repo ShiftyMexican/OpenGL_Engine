@@ -69,10 +69,16 @@ Application::Application(int tutorialNumber)
 	// -------------------------------------------------------------------------------------------------------------------
 
 	// Car Object --------------------------------------------------------------------------------------------------------
-	//myObject_Car = new Object(window, myCamera, m_programID, "PickUp.obj", "pickup_exterior_d.png");
+	myObject_Car = new Object(window, myCamera, m_programID, "PickUp.obj", "pickup_exterior_d.png");
 	//--------------------------------------------------------------------------------------------------------------------
 	
 	m_previousTime = 0.0f;
+
+	m_lightDir = vec3(1, 0, 1);
+	m_lightColour = vec3(1, 1, 1);
+
+	m_bar->SetLightDirX(1);
+	m_bar->SetLightDirZ(1);
 }
 
 // Destructor
@@ -179,6 +185,22 @@ void Application::Update()
 		m_ground->GenerateGrid(200, 200);
 	}
 
+	if (m_lightDir.x != m_bar->GetLightDirX())
+	{
+		m_lightDir.x = m_bar->GetLightDirX();
+	}
+
+	if (m_lightDir.z != m_bar->GetLightDirZ())
+	{
+		m_lightDir.z = m_bar->GetLightDirZ();
+	}
+
+	if (m_lightColour != m_bar->GetLightColour())
+	{
+		m_lightColour = m_bar->GetLightColour();
+	}
+
+
 	// Switch Statement for if i am loading multiple tutorials-----------------
 	 
 	switch (m_tutorialNumber)
@@ -201,10 +223,6 @@ void Application::Update()
 // Draw Function
 void Application::Draw()
 {
-
-	
-	//myObject_Car->Draw();
-
 	Gizmos::clear();
 	// Sets the Render Target for all Draws Following-------------------
 	//m_renderTarget->SetAsActiveRenderTarget();
@@ -216,10 +234,11 @@ void Application::Draw()
 
 
 	// Drawing the Ground Surface--------
-	m_ground->Draw();
+	m_ground->Draw(m_lightDir, m_lightColour);
 	//-----------------------------------
 	
-	myObject_Robot->Draw();
+	myObject_Robot->Draw(m_lightDir, m_lightColour);
+	myObject_Car->Draw(m_lightDir, m_lightColour);
 
 	// Drawing the Character-------------
 	//m_masterchief->Draw();

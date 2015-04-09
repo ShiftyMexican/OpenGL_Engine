@@ -31,7 +31,7 @@ public:
 
 	void Update(float deltaTime);
 
-	void Draw();
+	void Draw(glm::vec3 _lightDir, glm::vec3 _lightColour);
 
 	void load_obj(std::vector<Vertex> &vertices, std::vector<glm::vec3> &normals, std::vector<unsigned int> &elements, std::vector<glm::vec2> &texCoord);
 
