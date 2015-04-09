@@ -12,6 +12,10 @@ Application::Application(int tutorialNumber)
 	m_tutorialNumber = tutorialNumber;
 	//---------------------------------
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 9f15d9686915c53f8f70fe1cd0835ab9953780b5
 	// Setting Perlin Seed
 	m_perlinSeed = 835312.0f;
 
@@ -24,6 +28,15 @@ Application::Application(int tutorialNumber)
 	//m_solar = new SolarSystem();
 	//m_planetRot = 0.0f;
 	//m_planetRot2 = 0.0f;
+<<<<<<< HEAD
+=======
+	// Initialization for the solar system which is tutorial 1 ------------------
+	m_solar = new SolarSystem();
+	m_planetRot = 0.0f;
+	m_planetRot2 = 0.0f;
+>>>>>>> parent of 98f534e... Adding .lib files, added the perlin seed being able to be changed using the GUI Bar
+=======
+>>>>>>> 9f15d9686915c53f8f70fe1cd0835ab9953780b5
 	//---------------------------------------------------------------------------
 
 	// Initialization for the Free Camera ---------------------------------------
@@ -34,7 +47,15 @@ Application::Application(int tutorialNumber)
 	//---------------------------------------------------------------------------
 
 	// Masterchief FBX----------------------------------------------------------------------------------------------------
+<<<<<<< HEAD
+<<<<<<< HEAD
 	//m_masterchief = new FBXObject(window, m_programID, myCamera, "AlanTree.fbx");
+=======
+	//m_masterchief = new FBXObject(window, m_programID, myCamera, "./data/Bunny.fbx");
+>>>>>>> parent of 98f534e... Adding .lib files, added the perlin seed being able to be changed using the GUI Bar
+=======
+	//m_masterchief = new FBXObject(window, m_programID, myCamera, "AlanTree.fbx");
+>>>>>>> 9f15d9686915c53f8f70fe1cd0835ab9953780b5
 	//--------------------------------------------------------------------------------------------------------------------
 
 	// Creating Emitter --------------------------------------------------------------------------------------------------
@@ -65,7 +86,15 @@ Application::Application(int tutorialNumber)
 	Gizmos::create();
 
 	// Robot Object-------------------------------------------------------------------------------------------------------
+<<<<<<< HEAD
+<<<<<<< HEAD
 	myObject_Robot = new Object(window, myCamera, m_programID, "BattleDroid.obj", "BattleDroid_Dif.bmp");
+=======
+	//myObject_Robot = new Object(window, myCamera, m_programID, "./data/BattleDroid.obj", "./data/BattleDroid_Dif.bmp");
+>>>>>>> parent of 98f534e... Adding .lib files, added the perlin seed being able to be changed using the GUI Bar
+=======
+	myObject_Robot = new Object(window, myCamera, m_programID, "BattleDroid.obj", "BattleDroid_Dif.bmp");
+>>>>>>> 9f15d9686915c53f8f70fe1cd0835ab9953780b5
 	// -------------------------------------------------------------------------------------------------------------------
 
 	// Car Object --------------------------------------------------------------------------------------------------------
@@ -150,12 +179,27 @@ void Application::StartUp()
 	//-----------------------------------------------------------------------------
 	
 	// Creating my Shader Programs----------------------------------------------------------------------
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 9f15d9686915c53f8f70fe1cd0835ab9953780b5
 	m_programID = HandleShader("OBJ_Shader.vert", "OBJ_Shader.frag", 0);
 	m_renderTargetProgram = HandleShader("RenderTarget.vert", "RenderTarget.frag", 0);
 	m_surfaceProgram = HandleShader("Perlin_Shader.vert", "Perlin_Shader.frag", 0);
 	//m_shadowProgram = HandleShader("Shadow_Shader.vert", "Shadow_Shader.frag", 0);
 	//m_shadowGenProgram = HandleShader("Shadow_Gen.vert", "Shadow_Gen.frag", 0);
 	m_skyboxProgram = HandleShader("Skybox_Shader.vert", "Skybox_Shader.frag", 0);
+<<<<<<< HEAD
+=======
+	m_programID = HandleShader("./data/FBX_Shader_Non_Animated.vert", "./data/FBX_Shader_No_Material.frag", 0);
+	m_renderTargetProgram = HandleShader("./data/RenderTarget.vert", "./data/RenderTarget.frag", 0);
+	m_surfaceProgram = HandleShader("./data/Perlin_Shader.vert", "./data/Perlin_Shader.frag", 0);
+	//m_shadowProgram = HandleShader("./data/Shadow_Shader.vert", "./data/Shadow_Shader.frag", 0);
+	//m_shadowGenProgram = HandleShader("./data/Shadow_Gen.vert", "./data/Shadow_Gen.frag", 0);
+	m_skyboxProgram = HandleShader("./data/Skybox_Shader.vert", "./data/Skybox_Shader.frag", 0);
+>>>>>>> parent of 98f534e... Adding .lib files, added the perlin seed being able to be changed using the GUI Bar
+=======
+>>>>>>> 9f15d9686915c53f8f70fe1cd0835ab9953780b5
 	//--------------------------------------------------------------------------------------------------
 }
 

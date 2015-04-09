@@ -11,12 +11,27 @@ Skybox::Skybox(unsigned int programID, FreeCamera* camera)
 
 	std::vector<const GLchar*> faces;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 9f15d9686915c53f8f70fe1cd0835ab9953780b5
 	faces.push_back("nightsky_right.jpg");
 	faces.push_back("nightsky_left.jpg");
 	faces.push_back("nightsky_top.jpg");
 	faces.push_back("nightsky_top.jpg");
 	faces.push_back("nightsky_front.jpg");
 	faces.push_back("nightsky_back.jpg");
+<<<<<<< HEAD
+=======
+	faces.push_back("./data/alpine_right.jpg");
+	faces.push_back("./data/alpine_left.jpg");
+	faces.push_back("./data/alpine_top.jpg");
+	faces.push_back("./data/alpine_top.jpg");
+	faces.push_back("./data/alpine_back.jpg");
+	faces.push_back("./data/alpine_front.jpg");
+>>>>>>> parent of 98f534e... Adding .lib files, added the perlin seed being able to be changed using the GUI Bar
+=======
+>>>>>>> 9f15d9686915c53f8f70fe1cd0835ab9953780b5
 
 	LoadCubemap(faces);	
 }
