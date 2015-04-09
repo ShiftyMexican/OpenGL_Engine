@@ -42,19 +42,13 @@ Object::~Object()
 
 void Object::Update(float deltaTime)
 {
-<<<<<<< HEAD
-	
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 	m_lightYPos = glm::vec3(10, 10, 10);
-=======
+
 	m_lightYPos = glm::vec3((sin(glfwGetTime()), 1, cos(glfwGetTime())));
->>>>>>> 9f15d9686915c53f8f70fe1cd0835ab9953780b5
-=======
+
 	m_lightYPos = glm::vec3((sin(glfwGetTime()), 1, cos(glfwGetTime())));
->>>>>>> 9f15d9686915c53f8f70fe1cd0835ab9953780b5
->>>>>>> 81483cfed2b490b29b6f164bc209001a5ca320c7
+
 }
 
 void Object::Draw(glm::vec3 _lightDir, glm::vec3 _lightColour)
@@ -73,26 +67,11 @@ void Object::Draw(glm::vec3 _lightDir, glm::vec3 _lightColour)
 	unsigned int uiCameraLocation = glGetUniformLocation(m_programID, "CameraPos");
 	glUniform3fv(uiCameraLocation, 0, glm::value_ptr(m_camera->GetPosition())); // 0.0f, 1.0f, 0.0f); // glm::value_ptr(m_lightYPos));
 
-<<<<<<< HEAD
+
 	vec3 lightDir = glm::normalize(_lightDir);
 
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-	vec3 lightDir = vec3(10);
-	unsigned int uiLightDir = glGetUniformLocation(m_programID, "LightDir");
-	glUniform3fv(uiLightDir, 1, glm::value_ptr( lightDir));
-=======
-	vec3 lightDir(0, 100, 0);
 	unsigned int uiLightDir = glGetUniformLocation(m_programID, "LightDir");
 	glUniform3f(uiLightDir, lightDir.x, lightDir.y, lightDir.z);
->>>>>>> 9f15d9686915c53f8f70fe1cd0835ab9953780b5
-=======
-	vec3 lightDir(0, 100, 0);
->>>>>>> 81483cfed2b490b29b6f164bc209001a5ca320c7
-	unsigned int uiLightDir = glGetUniformLocation(m_programID, "LightDir");
-	glUniform3f(uiLightDir, lightDir.x, lightDir.y, lightDir.z);
->>>>>>> 9f15d9686915c53f8f70fe1cd0835ab9953780b5
 
 	unsigned int uiSpecPow = glGetUniformLocation(m_programID, "SpecPow");
 	glUniform1f(uiSpecPow, 125.0f);

@@ -21,6 +21,8 @@ MyAntTeakBar::MyAntTeakBar(GLFWwindow* window)
 	TwAddVarRW(m_bar, "Z Light Direction", TW_TYPE_FLOAT, &m_lightDir_z, "group=Light");
 	TwAddVarRW(m_bar, "Light Colour", TW_TYPE_COLOR3F, &m_lightColour[0], "group=Light");
 	TwAddVarRW(m_bar, "Perlin Noise Seed", TW_TYPE_FLOAT, &m_perlinNoiseSeed, "group=Ground");
+
+	m_lightColour = glm::vec3(1, 1, 1);
 }
 
 MyAntTeakBar::~MyAntTeakBar()
