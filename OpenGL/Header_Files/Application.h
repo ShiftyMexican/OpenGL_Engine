@@ -16,6 +16,7 @@
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 
+#include "Object.h"
 #include "SolarSystem.h"
 #include "MyAntTweakBar.h"
 #include "FBXObject.h"
@@ -36,6 +37,7 @@ struct Vertex {
 	glm::vec4 position;
 	glm::vec2 texCoord;
 	glm::vec3 normal;
+	glm::vec4 tangent;
 };
 
 class Object;

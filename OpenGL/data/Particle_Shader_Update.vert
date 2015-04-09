@@ -39,28 +39,37 @@ void main()
 	if( lifetime > lifespan)
 	{	
 		uint seed = uint(time * 1000.0) + uint(gl_VertexID);
-		velocity.x = rand(seed++, 2) - 1;
-		velocity.y = rand(seed++, 2) - 1;
-		velocity.z = rand(seed++, 2) - 1;
+		velocity.x = rand(seed++, 1) - 1.5;
+		velocity.y = rand(seed++, 1) - 2;
+		//velocity.z = rand(seed++, 2) - 1;
 		velocity = normalize(velocity);
 		velocity = velocity * rand(seed++, maxVelocity);
 		
-		if(int(time) % 3 == 0)
-		{
-			velocity = time / sin(time * normalize(-velocity));
-		}
-		else if(int(time) % 3 == 1)
-		{
-			velocity = time * sin(time * normalize(-velocity));
-		}
-		else
-		{
-			velocity = time * -sin(time * normalize(-velocity));
-		}
+		//if(int(time) % 3 == 0)
+		//{
+		//	velocity = time / sin(time * normalize(-velocity));
+		//}
+		//else if(int(time) % 3 == 1)
+		//{
+		//	velocity = time * sin(time * normalize(-velocity));
+		//}
+		//else
+		//{
+		//	velocity = time * -sin(time * normalize(-velocity));
+		//}
 	
 		position = emitterPosition;
+		position.x = rand(seed++, 200);
+		position.y = rand(seed++, 100);
+		position.z = rand(seed++, 200);
+
 		lifetime = 0;
 		lifespan = rand(seed++, lifeMax - lifeMin) + lifeMin;
+	}
+
+	if(position.y <= 0)
+	{
+		lifespan = 0;
 	}
 	
 }

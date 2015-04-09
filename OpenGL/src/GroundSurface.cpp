@@ -14,9 +14,15 @@ GroundSurface::GroundSurface(unsigned int programID, FreeCamera* camera)
 	m_camera = camera;
 	m_indexCount = 0;
 
+<<<<<<< HEAD
+	GenerateGroundTextures(m_grassTexture, "Snow_Texture.jpg");
+	GenerateGroundTextures(m_sandTexture, "Grass_Texture_2.jpg");
+	GenerateGroundTextures(m_waterTexture, "Ice_Texture.jpg");
+=======
 	GenerateGroundTextures(m_grassTexture, "./data/Grass_texture.jpg");
 	GenerateGroundTextures(m_sandTexture, "./data/Sand_Texture.jpg");
 	GenerateGroundTextures(m_waterTexture, "./data/Water_Texture.jpg");
+>>>>>>> parent of 98f534e... Adding .lib files, added the perlin seed being able to be changed using the GUI Bar
 }
 
 // Destruction

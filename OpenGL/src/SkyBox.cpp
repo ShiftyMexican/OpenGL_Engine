@@ -11,12 +11,21 @@ Skybox::Skybox(unsigned int programID, FreeCamera* camera)
 
 	std::vector<const GLchar*> faces;
 
+<<<<<<< HEAD
+	faces.push_back("nightsky_right.jpg");
+	faces.push_back("nightsky_left.jpg");
+	faces.push_back("nightsky_top.jpg");
+	faces.push_back("nightsky_top.jpg");
+	faces.push_back("nightsky_front.jpg");
+	faces.push_back("nightsky_back.jpg");
+=======
 	faces.push_back("./data/alpine_right.jpg");
 	faces.push_back("./data/alpine_left.jpg");
 	faces.push_back("./data/alpine_top.jpg");
 	faces.push_back("./data/alpine_top.jpg");
 	faces.push_back("./data/alpine_back.jpg");
 	faces.push_back("./data/alpine_front.jpg");
+>>>>>>> parent of 98f534e... Adding .lib files, added the perlin seed being able to be changed using the GUI Bar
 
 	LoadCubemap(faces);	
 }
@@ -54,13 +63,16 @@ void Skybox::LoadCubemap(std::vector<const GLchar*> faces)
 void Skybox::Draw()
 {
 	glDepthMask(GL_FALSE);
-
+	glEnable(GL_DEPTH_TEST);
 	glUseProgram(m_programID);
 
-	unsigned int uiProjLoc = glGetUniformLocation(m_programID, "Projection");
-	glUniformMatrix4fv(uiProjLoc, 1, false, glm::value_ptr(m_camera->GetProjection()));
-	unsigned int uiViewLoc = glGetUniformLocation(m_programID, "View");
-	glUniformMatrix4fv(uiViewLoc, 1, false, glm::value_ptr(m_camera->GetView()));
+	int iLoc = glGetUniformLocation(m_programID, "Projection");
+	glUniformMatrix4fv(iLoc, 1, false, glm::value_ptr(m_camera->GetProjection()));
+
+
+	iLoc = glGetUniformLocation(m_programID, "View");
+	glUniformMatrix4fv(iLoc, 1, false, glm::value_ptr(m_camera->GetView()));
+
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, m_texture);
@@ -129,7 +141,7 @@ void Skybox::CreateBuffers()
 	glBufferData(GL_ARRAY_BUFFER, 36 * 3 * sizeof(GLfloat), skyboxVertices, GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
 	glBindVertexArray(0);
 }
 

@@ -12,10 +12,25 @@ Application::Application(int tutorialNumber)
 	m_tutorialNumber = tutorialNumber;
 	//---------------------------------
 
+<<<<<<< HEAD
+	// Setting Perlin Seed
+	m_perlinSeed = 835312.0f;
+
+	// Initalizing the AntTweak ---------------------------------------------------
+	m_bar = new MyAntTeakBar(window);
+	m_bar->SetPerlinNoise(m_perlinSeed);
+	//// ----------------------------------------------------------------------------
+	//
+	//// Initialization for the solar system which is tutorial 1 ------------------
+	//m_solar = new SolarSystem();
+	//m_planetRot = 0.0f;
+	//m_planetRot2 = 0.0f;
+=======
 	// Initialization for the solar system which is tutorial 1 ------------------
 	m_solar = new SolarSystem();
 	m_planetRot = 0.0f;
 	m_planetRot2 = 0.0f;
+>>>>>>> parent of 98f534e... Adding .lib files, added the perlin seed being able to be changed using the GUI Bar
 	//---------------------------------------------------------------------------
 
 	// Initialization for the Free Camera ---------------------------------------
@@ -26,17 +41,21 @@ Application::Application(int tutorialNumber)
 	//---------------------------------------------------------------------------
 
 	// Masterchief FBX----------------------------------------------------------------------------------------------------
+<<<<<<< HEAD
+	//m_masterchief = new FBXObject(window, m_programID, myCamera, "AlanTree.fbx");
+=======
 	//m_masterchief = new FBXObject(window, m_programID, myCamera, "./data/Bunny.fbx");
+>>>>>>> parent of 98f534e... Adding .lib files, added the perlin seed being able to be changed using the GUI Bar
 	//--------------------------------------------------------------------------------------------------------------------
 
 	// Creating Emitter --------------------------------------------------------------------------------------------------
-	//m_emitter = new ParticleEmitter(myCamera);
-	//m_emitter->initialize(100000, 1.0f, 10.0f, 30.0f, 200, 10.0f, 1.0f, glm::vec4(0, 0, 1, 1), glm::vec4(1, 0, 0, 0.5f));
+	m_emitter = new ParticleEmitter(myCamera);
+	m_emitter->initialize(1000, 1.0f, 5.0f, 5, 20, 0.3f, 0.1f, glm::vec4(1, 1, 1, 1), glm::vec4(0.5, 0.5, 0.5, 0.5f));
 	// ------------------------------------------------------------------------------------------------------------------
 
 	// Render Target ----------------------------------------------------------
-	m_renderTarget = new RenderTarget(m_renderTargetProgram);
-	m_renderTarget->Init();
+	//m_renderTarget = new RenderTarget(m_renderTargetProgram);
+	//m_renderTarget->Init();
 	//-------------------------------------------------------------------------
 
 	// The Ground Surface------------------------------------------------------
@@ -56,7 +75,11 @@ Application::Application(int tutorialNumber)
 	Gizmos::create();
 
 	// Robot Object-------------------------------------------------------------------------------------------------------
+<<<<<<< HEAD
+	myObject_Robot = new Object(window, myCamera, m_programID, "BattleDroid.obj", "BattleDroid_Dif.bmp");
+=======
 	//myObject_Robot = new Object(window, myCamera, m_programID, "./data/BattleDroid.obj", "./data/BattleDroid_Dif.bmp");
+>>>>>>> parent of 98f534e... Adding .lib files, added the perlin seed being able to be changed using the GUI Bar
 	// -------------------------------------------------------------------------------------------------------------------
 
 	// Car Object --------------------------------------------------------------------------------------------------------
@@ -89,7 +112,7 @@ void Application::Run()
 	// Main Game loop
 	while(glfwWindowShouldClose(window) == false && glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS)
 	{
-		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 		glEnable(GL_DEPTH_TEST);
 
 		// Call Update
@@ -133,7 +156,7 @@ void Application::StartUp()
 
 	// Setting the Colour of the window--------------------------------------------
 	glClearColor(0.1f, 0.1f, 0.1f, 1);
-	glEnable(GL_FRONT_AND_BACK);
+	//glEnable(GL_FRONT_AND_BACK);
 	//-----------------------------------------------------------------------------
 
 	// Initalizing the AntTweak ---------------------------------------------------
@@ -141,12 +164,21 @@ void Application::StartUp()
 	// ----------------------------------------------------------------------------
 	
 	// Creating my Shader Programs----------------------------------------------------------------------
+<<<<<<< HEAD
+	m_programID = HandleShader("OBJ_Shader.vert", "OBJ_Shader.frag", 0);
+	m_renderTargetProgram = HandleShader("RenderTarget.vert", "RenderTarget.frag", 0);
+	m_surfaceProgram = HandleShader("Perlin_Shader.vert", "Perlin_Shader.frag", 0);
+	//m_shadowProgram = HandleShader("Shadow_Shader.vert", "Shadow_Shader.frag", 0);
+	//m_shadowGenProgram = HandleShader("Shadow_Gen.vert", "Shadow_Gen.frag", 0);
+	m_skyboxProgram = HandleShader("Skybox_Shader.vert", "Skybox_Shader.frag", 0);
+=======
 	m_programID = HandleShader("./data/FBX_Shader_Non_Animated.vert", "./data/FBX_Shader_No_Material.frag", 0);
 	m_renderTargetProgram = HandleShader("./data/RenderTarget.vert", "./data/RenderTarget.frag", 0);
 	m_surfaceProgram = HandleShader("./data/Perlin_Shader.vert", "./data/Perlin_Shader.frag", 0);
 	//m_shadowProgram = HandleShader("./data/Shadow_Shader.vert", "./data/Shadow_Shader.frag", 0);
 	//m_shadowGenProgram = HandleShader("./data/Shadow_Gen.vert", "./data/Shadow_Gen.frag", 0);
 	m_skyboxProgram = HandleShader("./data/Skybox_Shader.vert", "./data/Skybox_Shader.frag", 0);
+>>>>>>> parent of 98f534e... Adding .lib files, added the perlin seed being able to be changed using the GUI Bar
 	//--------------------------------------------------------------------------------------------------
 }
 
@@ -193,7 +225,7 @@ void Application::Update()
 void Application::Draw()
 {
 
-	//myObject_Robot->Draw();
+	
 	//myObject_Car->Draw();
 
 	Gizmos::clear();
@@ -203,11 +235,14 @@ void Application::Draw()
 
 	//Gizmos::addSphere(m_masterchief->GetLightPos(), 2, 10, 10, vec4(1, 0, 0, 1));
 	
+	m_skybox->Draw();
+
+
 	// Drawing the Ground Surface--------
 	m_ground->Draw();
 	//-----------------------------------
-	m_skybox->Draw();
 	
+	myObject_Robot->Draw();
 
 	// Drawing the Character-------------
 	//m_masterchief->Draw();
@@ -216,10 +251,10 @@ void Application::Draw()
 	//m_shadow->Draw();
 
 	// Drawing of the Particles----------------------------------------------------------------------
-	//m_emitter->Draw((float)glfwGetTime(), myCamera->GetTransform(), myCamera->GetProjectionView());
+	m_emitter->Draw((float)glfwGetTime(), myCamera->GetTransform(), myCamera->GetProjectionView());
 	//-----------------------------------------------------------------------------------------------
 
-	//Gizmos::draw(myCamera->GetProjectionView());
+	Gizmos::draw(myCamera->GetProjectionView());
 
 	// Clearing the Render Target ---------------------------------------------
 	//m_renderTarget->ClearActiveRenderTarget();
