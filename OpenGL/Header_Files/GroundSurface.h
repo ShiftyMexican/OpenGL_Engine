@@ -28,9 +28,13 @@ public:
 
 	void Draw();
 
-	void GeneratePerlin(unsigned int rows, unsigned int cols);
+	void GeneratePerlin(unsigned int rows, unsigned int cols, float seed);
 
 	void GenerateGroundTextures(unsigned int& texture, const char* textureName);
+
+	void SetPerlinSeed(float seed);
+
+	float GetPerlinNoise();
 
 private:
 
@@ -38,6 +42,8 @@ private:
 
 	glm::vec3 m_lightDirection;
 	glm::mat4 m_lightMatrix;
+
+	float m_perlinSeed;
 
 	unsigned int m_VAO;
 	unsigned int m_IBO;

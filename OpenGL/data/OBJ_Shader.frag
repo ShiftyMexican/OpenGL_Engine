@@ -1,6 +1,7 @@
 #version 410
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 in vec4 frag_normal;
 in vec2 frag_texcoord;
 in vec4 frag_position;
@@ -8,12 +9,17 @@ in vec4 frag_tangent;
 in vec4 frag_bitangent;
 in vec2 vTexCoord;
 =======
+=======
+>>>>>>> 9f15d9686915c53f8f70fe1cd0835ab9953780b5
 in vec3 vNormal;
 in vec4 vPosition;
 in vec2 vTexCoord;
 in vec3 vTangent;
 in vec3 vBiTangent;
 
+<<<<<<< HEAD
+>>>>>>> 9f15d9686915c53f8f70fe1cd0835ab9953780b5
+=======
 >>>>>>> 9f15d9686915c53f8f70fe1cd0835ab9953780b5
 out vec4 FragColor;	
 
@@ -33,6 +39,7 @@ void main()
 	vec3 N = texture(normal, vTexCoord).xyz * 2 - 1;
 	
 	vec3 lightDir = normalize(LightDir);
+<<<<<<< HEAD
 	
 <<<<<<< HEAD
 	//vec3 lightDir = normalize(frag_position.xyz - LightPos);
@@ -51,6 +58,16 @@ void main()
 =======
 	//float s = max( 0, dot( E, R ) );
 >>>>>>> 9f15d9686915c53f8f70fe1cd0835ab9953780b5
+=======
+	
+	float d = max(0.0, dot(normalize(TBN * N), lightDir ) );	
+	
+	//vec3 E = normalize( CameraPos - vPosition.xyz );
+	
+	//vec3 R = reflect( -lightDir, vNormal.xyz );
+	
+	//float s = max( 0, dot( E, R ) );
+>>>>>>> 9f15d9686915c53f8f70fe1cd0835ab9953780b5
 	
 	//s = pow( s, SpecPow );	
 
@@ -65,12 +82,17 @@ void main()
 	s = pow( s, SpecPow );
 
 	FragColor = texture(diffuse, vTexCoord) * vec4( LightColour * d + LightColour * s, 1);//vec4(0.2,0.2,0.2,1); 
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 	FragColor = texture(diffuse, vTexCoord) * vec4( LightColour * d + LightColour * s, 1);//vec4(0.2,0.2,0.2,1); 
 
 	//FragColor = vec4( LightColour * d + LightColour * s, 1);
 =======
+	//FragColor.rgb = FragColor.rgb * d;// = vec4( vNormal, 1);// LightColour * d + LightColour * s, 1);
+>>>>>>> 9f15d9686915c53f8f70fe1cd0835ab9953780b5
+=======
+
 	//FragColor.rgb = FragColor.rgb * d;// = vec4( vNormal, 1);// LightColour * d + LightColour * s, 1);
 >>>>>>> 9f15d9686915c53f8f70fe1cd0835ab9953780b5
 };

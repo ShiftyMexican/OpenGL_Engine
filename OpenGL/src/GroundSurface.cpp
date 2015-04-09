@@ -15,6 +15,7 @@ GroundSurface::GroundSurface(unsigned int programID, FreeCamera* camera)
 	m_indexCount = 0;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	GenerateGroundTextures(m_grassTexture, "Snow_Texture.jpg");
 	GenerateGroundTextures(m_sandTexture, "Grass_Texture_2.jpg");
 	GenerateGroundTextures(m_waterTexture, "Ice_Texture.jpg");
@@ -23,6 +24,11 @@ GroundSurface::GroundSurface(unsigned int programID, FreeCamera* camera)
 	GenerateGroundTextures(m_sandTexture, "./data/Sand_Texture.jpg");
 	GenerateGroundTextures(m_waterTexture, "./data/Water_Texture.jpg");
 >>>>>>> parent of 98f534e... Adding .lib files, added the perlin seed being able to be changed using the GUI Bar
+=======
+	GenerateGroundTextures(m_grassTexture, "Snow_Texture.jpg");
+	GenerateGroundTextures(m_sandTexture, "Grass_Texture_2.jpg");
+	GenerateGroundTextures(m_waterTexture, "Ice_Texture.jpg");
+>>>>>>> 9f15d9686915c53f8f70fe1cd0835ab9953780b5
 }
 
 // Destruction
@@ -114,7 +120,7 @@ void GroundSurface::GenerateGrid(unsigned int rows, unsigned int cols)
 
 	delete[] aoVerticies;
 	delete[] auiIndicies;
-	GeneratePerlin(rows, cols);
+	GeneratePerlin(rows, cols, m_perlinSeed);
 
 }
 
@@ -190,14 +196,14 @@ void GroundSurface::Draw()
 
 }
 
-void GroundSurface::GeneratePerlin(unsigned int rows, unsigned int cols)
+void GroundSurface::GeneratePerlin(unsigned int rows, unsigned int cols, float seed)
 {
 
 	int dims = rows;
 	float *perlin_data = new float[rows * cols];
 	float scale = (1.0f / dims) * 3;
 	int octaves = 6;
-	float perlin_seed = 0.9f;
+	m_perlinSeed = seed;
 
 	for (int x = 0; x < rows; ++x)
 	{
@@ -212,7 +218,7 @@ void GroundSurface::GeneratePerlin(unsigned int rows, unsigned int cols)
 			{
 				float freq = powf(2, (float)o);
 				//float perlin_sample = glm::perlin(vec2((float)x, (float)y) * scale * freq) * 0.5f + 0.5f;
-				float perlin_s = glm::perlin(vec3((float)x, (float)y, perlin_seed) *scale * freq) *0.5f + 0.5f;
+				float perlin_s = glm::perlin(vec3((float)x, (float)y, m_perlinSeed) *scale * freq) * 0.5f + 0.5f;
 				perlin_data[y * dims + x] += perlin_s * amplitude;
 				amplitude *= persistence;
 			}
@@ -246,4 +252,14 @@ void GroundSurface::GenerateGroundTextures(unsigned int& texture, const char* te
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 	stbi_image_free(data);
+}
+
+void GroundSurface::SetPerlinSeed(float seed)
+{
+	m_perlinSeed = seed;
+}
+
+float GroundSurface::GetPerlinNoise()
+{
+	return m_perlinSeed;
 }

@@ -13,6 +13,7 @@
 
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
+#include "GroundSurface.h"
 
 class MyAntTeakBar
 {
@@ -59,7 +60,11 @@ public:
 
 	glm::vec4 GetClearColour();
 
+	float GetPerlinSeed();
 
+	void SetPerlinNoise(float value);
+
+	
 
 protected:
 
@@ -67,6 +72,9 @@ protected:
 	glm::vec4 m_clearColour;
 	glm::vec3 m_light;
 	glm::vec3 m_lightColour;
+
+	float m_perlinNoiseSeed;
+	
 
 private:
 };

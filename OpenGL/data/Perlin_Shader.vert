@@ -12,10 +12,15 @@ uniform sampler2D perlin_texture;
 
 void main()
 {
-
 	vec4 pos = position;
-	pos.y += texture(perlin_texture, texcoord).r * 30;
 
+	float height = texture(perlin_texture, texcoord).r;
+	if(height <= 0.52) 
+	{
+		height = 0.52;
+	}
+
+	pos.y += height * 30;
 	frag_texcoord = texcoord;
 	gl_Position = ProjectionView * pos;
 }

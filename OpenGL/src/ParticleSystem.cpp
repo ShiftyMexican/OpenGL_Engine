@@ -290,9 +290,9 @@ void ParticleEmitter::CreateBuffers()
 
 void ParticleEmitter::CreateDrawShader()
 {
-	unsigned int vs = LoadShader("./data/Particle_Shader.vert", GL_VERTEX_SHADER);
-	unsigned int fs = LoadShader("./data/Particle_Shader.frag", GL_FRAGMENT_SHADER);
-	unsigned int gs = LoadShader("./data/Particle_Shader.geo", GL_GEOMETRY_SHADER);
+	unsigned int vs = LoadShader("Particle_Shader.vert", GL_VERTEX_SHADER);
+	unsigned int fs = LoadShader("Particle_Shader.frag", GL_FRAGMENT_SHADER);
+	unsigned int gs = LoadShader("Particle_Shader.geo", GL_GEOMETRY_SHADER);
 
 	m_programID = glCreateProgram();
 	glAttachShader(m_programID, vs);
@@ -323,7 +323,7 @@ void ParticleEmitter::CreateDrawShader()
 void ParticleEmitter::CreateUpdateShader()
 {
 
-	unsigned int vs = LoadShader("./data/Particle_Shader_Update.vert", GL_VERTEX_SHADER);
+	unsigned int vs = LoadShader("Particle_Shader_Update.vert", GL_VERTEX_SHADER);
 
 	m_programUpdate = glCreateProgram();
 
