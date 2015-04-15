@@ -13,6 +13,7 @@ uniform sampler2D water_texture;
 
 uniform sampler2D diffuse;
 uniform sampler2D normal;	
+uniform float iceLevel;
 
 uniform vec3 LightDir;
 uniform vec3 LightPos;
@@ -54,17 +55,21 @@ void main()
 	{
 		out_color = mix(grass, sand, 0.25);
 	}
-	else if(height > 0.58 && height < 0.65)
-	{
-		out_color = sand;
-	}
-	else if(height >= 0.52 && height <= 0.58)
+	else if(height >= iceLevel && height <=0.58 || height >= 0.52 && height <= 0.58)
 	{
 		out_color = mix(sand, water, 0.7);
 	}
-	else if(height < 0.52)
+	if(height <= iceLevel)
 	{
 		out_color = water;
+	}
+	else if(height >= iceLevel && height <= iceLevel + 0.08)
+	{
+		out_color = mix(sand, water, 0.7);
+	}
+	else if(height >= iceLevel + 0.08 && height <= iceLevel + 0.16)
+	{
+		out_color = mix(grass, sand, 0.25);
 	}
 
 	// Final Colour

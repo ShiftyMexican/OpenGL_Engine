@@ -28,13 +28,19 @@ public:
 
 	void Draw(glm::vec3 _lightDir, glm::vec3 _lightColour);
 
-	void GeneratePerlin(unsigned int rows, unsigned int cols, float seed);
+	void GeneratePerlin(unsigned int rows, unsigned int cols, float seed, float _amplitude);
 
 	void GenerateGroundTextures(unsigned int& texture, const char* textureName);
 
 	void SetPerlinSeed(float seed);
 
 	float GetPerlinNoise();
+
+	float GetAmp() { return m_amplitude; }
+	void SetAmp(float value) { m_amplitude = value;  }
+
+	float GetIceLevel() { return m_iceLevel; }
+	void SetIceLevel(float value) { m_iceLevel = value; }
 
 private:
 
@@ -59,6 +65,9 @@ private:
 	unsigned int m_grassTexture;
 	unsigned int m_sandTexture;
 	unsigned int m_waterTexture;
+
+	float m_amplitude;
+	float m_iceLevel;
 
 
 };

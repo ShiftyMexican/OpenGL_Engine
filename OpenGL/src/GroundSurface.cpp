@@ -18,6 +18,8 @@ GroundSurface::GroundSurface(unsigned int programID, FreeCamera* camera)
 	GenerateGroundTextures(m_sandTexture, "Grass_Texture_2.jpg");
 	GenerateGroundTextures(m_waterTexture, "Ice_Texture.jpg");
 
+	m_amplitude = 0.8f;
+	m_iceLevel = 0.8f;
 }
 
 // Destruction
@@ -109,7 +111,7 @@ void GroundSurface::GenerateGrid(unsigned int rows, unsigned int cols)
 
 	delete[] aoVerticies;
 	delete[] auiIndicies;
-	GeneratePerlin(rows, cols, m_perlinSeed);
+	GeneratePerlin(rows, cols, m_perlinSeed, m_amplitude);
 
 }
 
@@ -142,6 +144,9 @@ void GroundSurface::Draw(glm::vec3 _lightDir, glm::vec3 _lightColour)
 
 	loc = glGetUniformLocation(m_programID, "normal");
 	glUniform1f(loc, 1);
+
+	unsigned int location = glGetUniformLocation(m_programID, "iceLevel");
+	glUniform1f(location, m_iceLevel);
 	
 
 	// Texture ----------------------------------------------------------------------------------
@@ -175,7 +180,7 @@ void GroundSurface::Draw(glm::vec3 _lightDir, glm::vec3 _lightColour)
 
 }
 
-void GroundSurface::GeneratePerlin(unsigned int rows, unsigned int cols, float seed)
+void GroundSurface::GeneratePerlin(unsigned int rows, unsigned int cols, float seed, float _amplitude)
 {
 
 	int dims = rows;
@@ -188,7 +193,7 @@ void GroundSurface::GeneratePerlin(unsigned int rows, unsigned int cols, float s
 	{
 		for (unsigned int y = 0; y < cols; ++y)
 		{
-			float amplitude = 2.0f;
+			float amplitude = _amplitude;
 			float persistence = 0.3f;
 
 			perlin_data[y* dims + x] = 0;

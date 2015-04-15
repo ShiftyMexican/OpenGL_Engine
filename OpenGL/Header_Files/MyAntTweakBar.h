@@ -68,6 +68,12 @@ public:
 	void SetLightDirX(float value);
 	void SetLightDirZ(float value);
 
+	float GetAmp();
+	void SetAmp(float value);
+
+	float GetIceLevel() { return m_iceLevel; }
+	void SetIceLevel(float value) { m_iceLevel = value;  }
+
 	glm::vec3 GetLightColour();
 
 	
@@ -83,6 +89,9 @@ protected:
 
 	float m_lightDir_x;
 	float m_lightDir_z;
+
+	float m_amplitude;
+	float m_iceLevel;
 	
 
 private:

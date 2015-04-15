@@ -21,8 +21,13 @@ MyAntTeakBar::MyAntTeakBar(GLFWwindow* window)
 	TwAddVarRW(m_bar, "Z Light Direction", TW_TYPE_FLOAT, &m_lightDir_z, "group=Light");
 	TwAddVarRW(m_bar, "Light Colour", TW_TYPE_COLOR3F, &m_lightColour[0], "group=Light");
 	TwAddVarRW(m_bar, "Perlin Noise Seed", TW_TYPE_FLOAT, &m_perlinNoiseSeed, "group=Ground");
+	TwAddVarRW(m_bar, "Amplitude", TW_TYPE_FLOAT, &m_amplitude, "group=Ground");
+	TwAddVarRW(m_bar, "Ice Level", TW_TYPE_FLOAT, &m_iceLevel, "group=Ground");
 
 	m_lightColour = glm::vec3(1, 1, 1);
+
+	m_amplitude = 0.8f;
+	m_iceLevel = 0.0f;
 }
 
 MyAntTeakBar::~MyAntTeakBar()
@@ -81,5 +86,17 @@ glm::vec3 MyAntTeakBar::GetLightColour()
 {
 	return m_lightColour;
 }
+
+float MyAntTeakBar::GetAmp()
+{ 
+	return m_amplitude;
+}
+
+void MyAntTeakBar::SetAmp(float value)
+{
+	m_amplitude = value;
+}
+
+
 
 

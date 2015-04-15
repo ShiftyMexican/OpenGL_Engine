@@ -84,6 +84,7 @@ Application::Application(int tutorialNumber)
 
 	m_bar->SetLightDirX(1);
 	m_bar->SetLightDirZ(1);
+
 }
 
 // Destructor
@@ -206,6 +207,16 @@ void Application::Update()
 		m_lightColour = m_bar->GetLightColour();
 	}
 
+	if (m_ground->GetIceLevel() != m_bar->GetIceLevel())
+	{
+		m_ground->SetIceLevel(m_bar->GetIceLevel());
+	}
+
+	if (m_ground->GetAmp() != m_bar->GetAmp())
+	{
+		m_ground->SetAmp(m_bar->GetAmp());
+		m_ground->GenerateGrid(200, 200);
+	}
 
 	// Switch Statement for if i am loading multiple tutorials-----------------
 	 
