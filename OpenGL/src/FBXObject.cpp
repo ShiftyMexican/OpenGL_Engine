@@ -19,6 +19,7 @@ FBXObject::FBXObject(GLFWwindow* window, unsigned int programID, FreeCamera* _ca
 	m_timer = 0.0f;
 
 	m_lightYPos = vec3(10);
+	m_fbx->getAnimationByIndex(0)->m_endFrame = 85;
 }
 
 FBXObject::~FBXObject()
@@ -28,38 +29,38 @@ FBXObject::~FBXObject()
 
 void FBXObject::Update(float deltaTime)
 {
-	//FBXSkeleton* skeleton = m_fbx->getSkeletonByIndex(0);
+	FBXSkeleton* skeleton = m_fbx->getSkeletonByIndex(0);
 	FBXAnimation* animation = m_fbx->getAnimationByIndex(0);
 
 	m_timer += deltaTime;
 
-	//skeleton->evaluate(animation, m_timer);
-	//
-	//for (unsigned int bone_index = 0; bone_index < skeleton->m_boneCount; ++bone_index)
-	//{
-	//	skeleton->m_nodes[bone_index]->updateGlobalTransform();
-	//}
+	skeleton->evaluate(animation, m_timer);
+	
+	for (unsigned int bone_index = 0; bone_index < skeleton->m_boneCount; ++bone_index)
+	{
+		skeleton->m_nodes[bone_index]->updateGlobalTransform();
+	}
 }
 
-void FBXObject::Draw()
+void FBXObject::Draw(glm::vec3 _lightDir, glm::vec3 _lightColour)
 {
 	glUseProgram(m_programID);
 
 	unsigned int uiProjViewLocation = glGetUniformLocation(m_programID, "ProjectionView");
 	glUniformMatrix4fv(uiProjViewLocation, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjectionView()));
 
- 	//FBXSkeleton* skeleton = m_fbx->getSkeletonByIndex(0);
-	//skeleton->updateBones();
-	//
-	//int bones_location = glGetUniformLocation(m_programID, "bones");
-	//glUniformMatrix4fv(bones_location, skeleton->m_boneCount, GL_FALSE, (float*)skeleton->m_bones);
+ 	FBXSkeleton* skeleton = m_fbx->getSkeletonByIndex(0);
+	skeleton->updateBones();
+	
+	int bones_location = glGetUniformLocation(m_programID, "bones");
+	glUniformMatrix4fv(bones_location, skeleton->m_boneCount, GL_FALSE, (float*)skeleton->m_bones);
 
 	for (unsigned int i = 0; i < m_fbx->getMeshCount(); ++i)
 	{
 		FBXMeshNode* mesh = m_fbx->getMeshByIndex(i);
 		
-		//glActiveTexture(GL_TEXTURE0);
-		//glBindTexture(GL_TEXTURE_2D, mesh->m_material->textures[FBXMaterial::DiffuseTexture]->handle);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, mesh->m_material->textures[FBXMaterial::DiffuseTexture]->handle);
 
 		unsigned int* glData = (unsigned int*)mesh->m_userData;
 
@@ -78,18 +79,18 @@ void FBXObject::Draw()
 		unsigned int uiLightPositionLocation = glGetUniformLocation(m_programID, "LightPos");
 		glUniform3fv(uiLightPositionLocation, 1, glm::value_ptr(m_lightYPos));
 
-		vec3 light(1, 1, 1);
+		vec3 lightDir = glm::normalize(_lightDir);
 		unsigned int uiLightDirectionLocation = glGetUniformLocation(m_programID, "LightDir");
-		glUniform3f(uiLightDirectionLocation, light.x, light.y, light.z);
+		glUniform3f(uiLightDirectionLocation, lightDir.x, lightDir.y, lightDir.z);
 
 		unsigned int uiLightColourLocation = glGetUniformLocation(m_programID, "LightColour");
-		glUniform3f(uiLightColourLocation, 1.0f, 1.0f, 1.0f);
+		glUniform3f(uiLightColourLocation, _lightColour.x, _lightColour.y, _lightColour.z);
 
 		unsigned int uiCameraLocation = glGetUniformLocation(m_programID, "CameraPos");
 		glUniform3fv(uiCameraLocation, 0, glm::value_ptr(m_camera->GetPosition())); // 0.0f, 1.0f, 0.0f); // glm::value_ptr(m_lightYPos));
 
 		unsigned int uiSpecPow = glGetUniformLocation(m_programID, "SpecPow");
-		glUniform1f(uiSpecPow, 0);
+		glUniform1f(uiSpecPow, 125.0f);
 
 		glDrawElements(GL_TRIANGLES, (unsigned int)mesh->m_indices.size(), GL_UNSIGNED_INT, 0);
 
@@ -120,22 +121,29 @@ void FBXObject::CreateOpenGLBuffers(FBXFile* fbx)
 		glBufferData(GL_ARRAY_BUFFER, mesh->m_vertices.size() * sizeof(FBXVertex), mesh->m_vertices.data(), GL_STATIC_DRAW);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->m_indices.size() * sizeof(unsigned int), mesh->m_indices.data(), GL_STATIC_DRAW);
 
-		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(0); // position
+		glEnableVertexAttribArray(1); // normals
+		glEnableVertexAttribArray(2); // tangents
+		glEnableVertexAttribArray(3); // texcoords
+		glEnableVertexAttribArray(4); // weights
+		glEnableVertexAttribArray(5); // indices 
+
+		// Position
 		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(FBXVertex), (void*)FBXVertex::PositionOffset);
 
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(FBXVertex), (void*)FBXVertex::TexCoord1Offset);
+		// Normals
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_TRUE, sizeof(FBXVertex), (void*)FBXVertex::NormalOffset);
 
-		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(2, 4, GL_FLOAT, GL_TRUE, sizeof(FBXVertex), (void*)FBXVertex::NormalOffset);
+		// tangents
+		glVertexAttribPointer(2, 4, GL_FLOAT, GL_TRUE, sizeof(FBXVertex), (void*)FBXVertex::TangentOffset);
 
-		glEnableVertexAttribArray(3);
-		glVertexAttribPointer(3, 4, GL_FLOAT, GL_TRUE, sizeof(FBXVertex), (void*)FBXVertex::TangentOffset);
+		// tex coords
+		glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(FBXVertex), (void*)FBXVertex::TexCoord1Offset);
 
-		glEnableVertexAttribArray(4);
+		// Wieghts
 		glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(FBXVertex), (void*)FBXVertex::WeightsOffset);
 
-		glEnableVertexAttribArray(5);
+		// indices
 		glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(FBXVertex), (void*)FBXVertex::IndicesOffset);
 
 		glBindVertexArray(0);

@@ -188,7 +188,7 @@ void GroundSurface::GeneratePerlin(unsigned int rows, unsigned int cols, float s
 	{
 		for (unsigned int y = 0; y < cols; ++y)
 		{
-			float amplitude = 1.0f;
+			float amplitude = 2.0f;
 			float persistence = 0.3f;
 
 			perlin_data[y* dims + x] = 0;

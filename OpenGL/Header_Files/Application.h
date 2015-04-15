@@ -119,6 +119,8 @@ protected:
 	float m_previousTime;
 
 	float m_perlinSeed;
+
+	unsigned int m_fbxProgram;
 	
 	// Program for the Surface-----------
 	unsigned int m_surfaceProgram;

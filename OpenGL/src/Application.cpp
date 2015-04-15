@@ -19,7 +19,7 @@ Application::Application(int tutorialNumber)
 	m_bar = new MyAntTeakBar(window);
 	m_bar->SetPerlinNoise(m_perlinSeed);
 	//// ----------------------------------------------------------------------------
-	//
+	
 	//// Initialization for the solar system which is tutorial 1 ------------------
 	//m_solar = new SolarSystem();
 	//m_planetRot = 0.0f;
@@ -35,11 +35,11 @@ Application::Application(int tutorialNumber)
 	myCamera = new FreeCamera(window);
 	myCamera->SetupPerspective(glm::pi<float>() * 0.25f ,1240.0f / 768.0f);
 	myCamera->LookAt(vec3(50, 50, 50), vec3(0), vec3(0, 1, 0));
-	myCamera->SetFlySpeed(50.0f);
+	myCamera->SetFlySpeed(1000.0f);
 	//---------------------------------------------------------------------------
 
 	// Masterchief FBX----------------------------------------------------------------------------------------------------
-	//m_masterchief = new FBXObject(window, m_programID, myCamera, "./data/Bunny.fbx");
+	m_masterchief = new FBXObject(window, m_fbxProgram, myCamera, "pyro.fbx");
 	//--------------------------------------------------------------------------------------------------------------------
 
 	// Creating Emitter --------------------------------------------------------------------------------------------------
@@ -74,7 +74,7 @@ Application::Application(int tutorialNumber)
 	// -------------------------------------------------------------------------------------------------------------------
 
 	// Car Object --------------------------------------------------------------------------------------------------------
-	myObject_Car = new Object(window, myCamera, m_programID, "PickUp.obj", "pickup_exterior_d.png");
+	//myObject_Car = new Object(window, myCamera, m_programID, "PickUp.obj", "pickup_exterior_d.png");
 	//--------------------------------------------------------------------------------------------------------------------
 	
 	m_previousTime = 0.0f;
@@ -156,6 +156,7 @@ void Application::StartUp()
 	
 	// Creating my Shader Programs----------------------------------------------------------------------
 	m_programID = HandleShader("OBJ_Shader.vert", "OBJ_Shader.frag", 0);
+	m_fbxProgram = HandleShader("FBX_Shader.vert", "FBX_Shader.frag", 0);
 	m_renderTargetProgram = HandleShader("RenderTarget.vert", "RenderTarget.frag", 0);
 	m_surfaceProgram = HandleShader("Perlin_Shader.vert", "Perlin_Shader.frag", 0);
 	//m_shadowProgram = HandleShader("Shadow_Shader.vert", "Shadow_Shader.frag", 0);
@@ -178,7 +179,7 @@ void Application::Update()
 	//-------------------------------------------------------------------------
 
 	// Update for FBX Oject - Masterchief--------------------------------------
-	//m_masterchief->Update(deltaTime);
+	m_masterchief->Update(deltaTime);
 	//-------------------------------------------------------------------------
 
 	//myObject_Robot->Update(deltaTime);
@@ -243,10 +244,10 @@ void Application::Draw()
 	//-----------------------------------
 	
 	myObject_Robot->Draw(m_lightDir, m_lightColour);
-	myObject_Car->Draw(m_lightDir, m_lightColour);
+	//myObject_Car->Draw(m_lightDir, m_lightColour);
 
 	// Drawing the Character-------------
-	//m_masterchief->Draw();
+	m_masterchief->Draw(m_lightDir, m_lightColour);
 	//-----------------------------------
 
 	//m_shadow->Draw();

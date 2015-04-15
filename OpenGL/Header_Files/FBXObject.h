@@ -31,7 +31,7 @@ public:
 
 	void Update(float deltaTime);
 
-	void Draw();
+	void Draw(glm::vec3 _lightDir, glm::vec3 _lightColour);
 
 	void CreateOpenGLBuffers(FBXFile* fbx);
 

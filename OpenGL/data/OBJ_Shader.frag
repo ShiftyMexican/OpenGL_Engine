@@ -29,35 +29,8 @@ void main()
 
 	vec3 N = texture(normal, vTexCoord).xyz * 2 - 1;
 	
-	//vec3 lightDir = normalize(LightDir);
-
-	//vec3 lightDir = normalize(LightDir);
-
-	//vec3 lightDir = normalize(frag_position.xyz - LightPos);
-	
-	//float d = max(0.0, dot(normalize(TBN * N), LightDir ) );	
-
-	
-	//vec3 E = normalize( CameraPos - vPosition.xyz );
-	
-	//vec3 R = reflect( -lightDir, vNormal.xyz );
-
-	//vec3 R = reflect( -LightDir, frag_normal.xyz );
-
-	//float s = max( 0, dot( E, R ) );
-	
 	float d = max(0.0, dot(normalize(vNormal), normalize(LightDir) ) );	
 	
-	//vec3 E = normalize( CameraPos - vPosition.xyz );
-	
-	//vec3 R = reflect( -lightDir, vNormal.xyz );
-	
-	//float s = max( 0, dot( E, R ) );
-	
-	//s = pow( s, SpecPow );	
-
-	//float d = max(0, dot(normalize(TBN * N), normalize(lightDir)));
-
 	vec3 E = normalize( CameraPos - vPosition.xyz );
 	
 	vec3 R = reflect( -LightDir, vNormal.xyz );
