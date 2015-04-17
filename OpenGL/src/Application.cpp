@@ -235,6 +235,15 @@ void Application::Update()
 	}
 	
 	//-------------------------------------------------------------------------
+	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS) {
+		m_programID = HandleShader("OBJ_Shader.vert", "OBJ_Shader.frag", 0);
+		m_fbxProgram = HandleShader("FBX_Shader.vert", "FBX_Shader.frag", 0);
+		m_renderTargetProgram = HandleShader("RenderTarget.vert", "RenderTarget.frag", 0);
+		m_surfaceProgram = HandleShader("Perlin_Shader.vert", "Perlin_Shader.frag", 0);
+		//m_shadowProgram = HandleShader("Shadow_Shader.vert", "Shadow_Shader.frag", 0);
+		//m_shadowGenProgram = HandleShader("Shadow_Gen.vert", "Shadow_Gen.frag", 0);
+		m_skyboxProgram = HandleShader("Skybox_Shader.vert", "Skybox_Shader.frag", 0);
+	}
 }
 
 // Draw Function
