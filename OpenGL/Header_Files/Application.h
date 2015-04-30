@@ -17,14 +17,7 @@
 #include <glm/ext.hpp>
 
 #include "Object.h"
-#include "SolarSystem.h"
-#include "MyAntTweakBar.h"
-#include "FBXObject.h"
-#include "ParticleSystem.h"
-#include "RenderTarget.h"
-#include "GroundSurface.h"
-#include "Shadow.h"
-#include "SkyBox.h"
+
 
 struct GridVertex {
 
@@ -42,12 +35,13 @@ struct Vertex {
 
 class Object;
 class FreeCamera;
+class Assessment1;
 class Application
 {
 public:
 
 	// Constructor
-	Application(int tutorialNumber);
+	Application();
 
 	// Destructor
 	~Application();
@@ -72,79 +66,21 @@ public:
 
 	unsigned int CreateProgram(GLuint vs);
 
+	unsigned int ShaderHotLoad();
 
 protected:
 	// Window
 	GLFWwindow* window;
 
-	// Solar System Object
-	SolarSystem* m_solar;
-
 	// Camera Object
 	FreeCamera* myCamera;
 
-	// OBJ object - Robot
-	Object* myObject_Robot;
-
-	// OBJ object - Car
-	Object* myObject_Car;
-
-	// GUI Bar
-	MyAntTeakBar* m_bar;
-
-	// FBX object - Alien Guy
-	FBXObject* m_masterchief;
-
-	// Surface Object
-	GroundSurface* m_ground;
-
-	// Shadows
-	Shadow* m_shadow;
-
-	// SkyBox
-	Skybox* m_skybox;
-
-	glm::mat4 view;
-	glm::mat4 projection;
-
-	glm::vec3 m_lightDir;
-	glm::vec3 m_lightColour;
-
-	float m_planetRot;
-	float m_planetRot2;
-
-	int m_tutorialNumber;
+	// Assessment 1
+	Assessment1* m_assessment1;
 
 	float m_currentTime;
 	float m_previousTime;
 
-	float m_perlinSeed;
-
-	unsigned int m_fbxProgram;
-	
-	// Program for the Surface-----------
-	unsigned int m_surfaceProgram;
-	// ----------------------------------
-
-	unsigned int m_shadowProgram;
-	unsigned int m_shadowGenProgram;
-
-	unsigned int m_skyboxProgram;
-
-	// Particle Emitter------------------
-	ParticleEmitter* m_emitter;
-
-	unsigned int m_updateShader;
-	unsigned int m_programID;
-	unsigned int m_praticleProgramID;
-	unsigned int m_particleUpdate;
-	// ----------------------------------
-
-	// Rendering Object------------------
-	RenderTarget* m_renderTarget;
-
-	unsigned int m_renderTargetProgram;
-	//-----------------------------------
 };
 
 #endif

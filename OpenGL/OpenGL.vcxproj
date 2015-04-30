@@ -83,6 +83,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="dep\aieutilities\Gizmos_fix.cpp" />
+    <ClCompile Include="src\Assessment1.cpp" />
+    <ClCompile Include="src\Checkers.cpp" />
     <ClCompile Include="src\Shadow.cpp" />
     <ClCompile Include="src\GroundSurface.cpp" />
     <ClCompile Include="src\RenderTarget.cpp" />
@@ -101,6 +103,8 @@
   <ItemGroup>
     <ClInclude Include="dep\aieutilities\Gizmos.h" />
     <ClInclude Include="dep\glfw\include\GLFW\glfw3.h" />
+    <ClInclude Include="Header_Files\Assessment1.h" />
+    <ClInclude Include="Header_Files\Checkers.h" />
     <ClInclude Include="Header_Files\FBXObject.h" />
     <ClInclude Include="Header_Files\GroundSurface.h" />
     <ClInclude Include="Header_Files\MyAntTweakBar.h" />

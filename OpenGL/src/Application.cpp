@@ -1,35 +1,16 @@
 #include "Application.h"
+#include "Assessment1.h"
 #include "FreeCamera.h"
 using glm::vec3;
 using glm::vec4;
 using glm::mat4;
 
 // Constructor
-Application::Application(int tutorialNumber)
+Application::Application()
 {
 	// Calling of the Start up Function
 	StartUp();
-	m_tutorialNumber = tutorialNumber;
 	//---------------------------------
-
-	// Setting Perlin Seed
-	m_perlinSeed = 835312.0f;
-
-	// Initalizing the AntTweak ---------------------------------------------------
-	m_bar = new MyAntTeakBar(window);
-	m_bar->SetPerlinNoise(m_perlinSeed);
-	//// ----------------------------------------------------------------------------
-	
-	//// Initialization for the solar system which is tutorial 1 ------------------
-	//m_solar = new SolarSystem();
-	//m_planetRot = 0.0f;
-	//m_planetRot2 = 0.0f;
-
-	// Initialization for the solar system which is tutorial 1 ------------------
-	//m_solar = new SolarSystem();
-	//m_planetRot = 0.0f;
-	//m_planetRot2 = 0.0f;
-	//---------------------------------------------------------------------------
 
 	// Initialization for the Free Camera ---------------------------------------
 	myCamera = new FreeCamera(window);
@@ -38,52 +19,8 @@ Application::Application(int tutorialNumber)
 	myCamera->SetFlySpeed(1000.0f);
 	//---------------------------------------------------------------------------
 
-	// Masterchief FBX----------------------------------------------------------------------------------------------------
-	m_masterchief = new FBXObject(window, m_fbxProgram, myCamera, "pyro.fbx");
-	//--------------------------------------------------------------------------------------------------------------------
-
-	// Creating Emitter --------------------------------------------------------------------------------------------------
-	m_emitter = new ParticleEmitter(myCamera);
-	m_emitter->initialize(1000, 1.0f, 5.0f, 5, 20, 0.3f, 0.1f, glm::vec4(1, 1, 1, 1), glm::vec4(0.5, 0.5, 0.5, 0.5f));
-	// ------------------------------------------------------------------------------------------------------------------
-
-	// Render Target ----------------------------------------------------------
-	//m_renderTarget = new RenderTarget(m_renderTargetProgram);
-	//m_renderTarget->Init();
-	//-------------------------------------------------------------------------
-
-	// The Ground Surface------------------------------------------------------
-	m_ground = new GroundSurface(m_surfaceProgram, myCamera);
-	m_ground->SetPerlinSeed(m_perlinSeed);
-	m_ground->GenerateGrid(200, 200);
-	//-------------------------------------------------------------------------
-
-	// The Ground Surface------------------------------------------------------
-	m_skybox = new Skybox(m_skyboxProgram, myCamera);
-	//-------------------------------------------------------------------------
-
-	// Shadows-----------------------------------------------------------------
-	//m_shadow = new Shadow(m_shadowProgram, m_shadowGenProgram, myCamera);
-	//m_shadow->Init();
-	//-------------------------------------------------------------------------
-
-	Gizmos::create();
-
-	// Robot Object-------------------------------------------------------------------------------------------------------
-	myObject_Robot = new Object(window, myCamera, m_programID, "BattleDroid.obj", "BattleDroid_Dif.bmp");
-	// -------------------------------------------------------------------------------------------------------------------
-
-	// Car Object --------------------------------------------------------------------------------------------------------
-	//myObject_Car = new Object(window, myCamera, m_programID, "PickUp.obj", "pickup_exterior_d.png");
-	//--------------------------------------------------------------------------------------------------------------------
-	
-	m_previousTime = 0.0f;
-
-	m_lightDir = vec3(1, 0, 1);
-	m_lightColour = vec3(1, 1, 1);
-
-	m_bar->SetLightDirX(1);
-	m_bar->SetLightDirZ(1);
+	// First Assessment - Proceduarally Generated Environment.
+	m_assessment1 = new Assessment1(this, window);
 
 }
 
@@ -91,11 +28,6 @@ Application::Application(int tutorialNumber)
 Application::~Application()
 {
 	Gizmos::destroy();
-
-//	delete myObject_Robot;
-//	delete myObject_Car;
-	delete m_masterchief;
-	delete m_renderTarget;
 
 	glfwDestroyWindow(window);
 	glfwTerminate();
@@ -121,7 +53,6 @@ void Application::Run()
 }
 
 // Start Up Function - Contains Data needed to start Various things without the project
-// eg: Handling Shaders and Setting Window size
 void Application::StartUp()
 {
 	if (glfwInit() == false)
@@ -154,16 +85,6 @@ void Application::StartUp()
 	glClearColor(0.1f, 0.1f, 0.1f, 1);
 	//glEnable(GL_FRONT_AND_BACK);
 	//-----------------------------------------------------------------------------
-	
-	// Creating my Shader Programs----------------------------------------------------------------------
-	m_programID = HandleShader("OBJ_Shader.vert", "OBJ_Shader.frag", 0);
-	m_fbxProgram = HandleShader("FBX_Shader.vert", "FBX_Shader.frag", 0);
-	m_renderTargetProgram = HandleShader("RenderTarget.vert", "RenderTarget.frag", 0);
-	m_surfaceProgram = HandleShader("Perlin_Shader.vert", "Perlin_Shader.frag", 0);
-	//m_shadowProgram = HandleShader("Shadow_Shader.vert", "Shadow_Shader.frag", 0);
-	//m_shadowGenProgram = HandleShader("Shadow_Gen.vert", "Shadow_Gen.frag", 0);
-	m_skyboxProgram = HandleShader("Skybox_Shader.vert", "Skybox_Shader.frag", 0);
-	//--------------------------------------------------------------------------------------------------
 }
 
 // Update Function
@@ -174,125 +95,14 @@ void Application::Update()
 	deltaTime = m_currentTime - m_previousTime; 
 	m_previousTime = m_currentTime;
 	//-------------------------------------------------------------------------
-
-	// Camera Update-----------------------------------------------------------
-	myCamera->Update(deltaTime);
-	//-------------------------------------------------------------------------
-
-	// Update for FBX Oject - Masterchief--------------------------------------
-	m_masterchief->Update(deltaTime);
-	//-------------------------------------------------------------------------
-
-	//myObject_Robot->Update(deltaTime);
-	//myObject_Car->Update(deltaTime);
-
-	if (m_ground->GetPerlinNoise() != m_bar->GetPerlinSeed())
-	{
-		m_ground->SetPerlinSeed(m_bar->GetPerlinSeed());
-		m_ground->GenerateGrid(200, 200);
-	}
-
-	if (m_lightDir.x != m_bar->GetLightDirX())
-	{
-		m_lightDir.x = m_bar->GetLightDirX();
-	}
-
-	if (m_lightDir.z != m_bar->GetLightDirZ())
-	{
-		m_lightDir.z = m_bar->GetLightDirZ();
-	}
-
-	if (m_lightColour != m_bar->GetLightColour())
-	{
-		m_lightColour = m_bar->GetLightColour();
-	}
-
-	if (m_ground->GetIceLevel() != m_bar->GetIceLevel())
-	{
-		m_ground->SetIceLevel(m_bar->GetIceLevel());
-	}
-
-	if (m_ground->GetAmp() != m_bar->GetAmp())
-	{
-		m_ground->SetAmp(m_bar->GetAmp());
-		m_ground->GenerateGrid(200, 200);
-	}
-
-	// Switch Statement for if i am loading multiple tutorials-----------------
-	 
-	switch (m_tutorialNumber)
-	{
-
-	case 1:
-		{
-			m_solar->Update(deltaTime);
-		}
-		break;
-
-	default:
-		
-		break;
-	}
 	
-	//-------------------------------------------------------------------------
-	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS) {
-		m_programID = HandleShader("OBJ_Shader.vert", "OBJ_Shader.frag", 0);
-		m_fbxProgram = HandleShader("FBX_Shader.vert", "FBX_Shader.frag", 0);
-		m_renderTargetProgram = HandleShader("RenderTarget.vert", "RenderTarget.frag", 0);
-		m_surfaceProgram = HandleShader("Perlin_Shader.vert", "Perlin_Shader.frag", 0);
-		//m_shadowProgram = HandleShader("Shadow_Shader.vert", "Shadow_Shader.frag", 0);
-		//m_shadowGenProgram = HandleShader("Shadow_Gen.vert", "Shadow_Gen.frag", 0);
-		m_skyboxProgram = HandleShader("Skybox_Shader.vert", "Skybox_Shader.frag", 0);
-	}
+	m_assessment1->Update(deltaTime);
 }
 
 // Draw Function
 void Application::Draw()
 {
-	Gizmos::clear();
-	// Sets the Render Target for all Draws Following-------------------
-	//m_renderTarget->SetAsActiveRenderTarget();
-	//------------------------------------------------------------------
-
-	//Gizmos::addSphere(m_masterchief->GetLightPos(), 2, 10, 10, vec4(1, 0, 0, 1));
-	
-	m_skybox->Draw();
-
-
-	// Drawing the Ground Surface--------
-	m_ground->Draw(m_lightDir, m_lightColour);
-	//-----------------------------------
-	
-	myObject_Robot->Draw(m_lightDir, m_lightColour);
-	//myObject_Car->Draw(m_lightDir, m_lightColour);
-
-	// Drawing the Character-------------
-	m_masterchief->Draw(m_lightDir, m_lightColour);
-	//-----------------------------------
-
-	//m_shadow->Draw();
-
-	// Drawing of the Particles----------------------------------------------------------------------
-	m_emitter->Draw((float)glfwGetTime(), myCamera->GetTransform(), myCamera->GetProjectionView());
-	//-----------------------------------------------------------------------------------------------
-
-	Gizmos::draw(myCamera->GetProjectionView());
-
-	// Clearing the Render Target ---------------------------------------------
-	//m_renderTarget->ClearActiveRenderTarget();
-	//-------------------------------------------------------------------------
-
-	// Drawing Everything that is currently on the render target
-	//m_renderTarget->Draw();
-
-	// GUI Draw-------------------------
-	m_bar->Draw();
-	//----------------------------------
-
-
-	//Gizmos::addTransform(glm::mat4(1), 50.0f);
-	//
-	//Gizmos::draw(myCamera->GetProjectionView());
+	m_assessment1->Draw();
 }
 
 // Load Shader Function
